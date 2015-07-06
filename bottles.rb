@@ -45,12 +45,27 @@ class Bottles
 	def self.start_machine(cash)
 		till(cash)
 
+		$cooler[:totalBottlesChugged] = 0
+		$cooler[:bottlesFromEmpty] = 0
+		$cooler[:bottlesFromCaps] = 0
+
 		loop do
 			recyclingMachine()
 
-		break if $cooler[:fullBottles] == 0
+			break if $cooler[:fullBottles] == 0
 		end
 
+	end
+
+	def self.reset_cooler()
+		$cooler = {fullBottles: 0,
+				emptyBottles: 0,
+				bottleCaps: 0,
+				bottlesPurchased: 0,
+				bottlesFromEmpty: 0,
+				bottlesFromCaps: 0,
+				totalBottlesChugged: 0
+				}
 	end
 
 	while $bOK
@@ -59,6 +74,8 @@ class Bottles
 
 		puts "Welcome to Lighthouse Markets"
 		
+		reset_cooler()
+
 		while bOK
 			begin
 				puts "A bottle of pop costs $2 each, how much would you like to spend?"
